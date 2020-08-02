@@ -1,6 +1,7 @@
 import React from 'react';
 import {Redirect, Route, Switch} from 'react-router-dom'
 import {Layout} from "antd"
+import LeftNav from "../../components/leftNav/LeftNav"
 import Home from '../home/home'
 import Category from '../category/category'
 import Product from '../product/product'
@@ -10,7 +11,10 @@ import Bar from '../charts/bar'
 import Line from '../charts/line'
 import Pie from '../charts/pie'
 import Order from '../order/order'
-const {Footer, Sider, Content, Header} = Layout
+import Header from "../../components/header/Header"
+import memoryUtil from "../../utils/memoryUtil"
+
+const {Footer, Sider, Content} = Layout
 export default class Admin extends React.Component {
   constructor(props) {
     super(props);
@@ -18,13 +22,21 @@ export default class Admin extends React.Component {
   }
 
   render() {
+    const user = memoryUtil.user
+    // 如果内存没有存储user ==> 当前没有登陆
+    if (!user || !user._id) {
+      // 自动跳转到登陆(在render()中)
+      return <Redirect to='/login'/>
+    }
     return (
       <>
         <Layout style={{minHeight: '100%'}}>
-          <Sider>Sider</Sider>
+          <Sider>
+            <LeftNav/>
+          </Sider>
           <Layout>
-            <Header>Header</Header>
-            <Content>
+            <Header/>
+            <Content style={{margin: 10, backgroundColor: '#fff'}}>
               <Switch>
                 <Redirect from='/' exact to='/home'/>
                 <Route path='/home' component={Home}/>
@@ -38,7 +50,7 @@ export default class Admin extends React.Component {
                 <Route path="/order" component={Order}/>
               </Switch>
             </Content>
-            <Footer>Footer</Footer>
+            <Footer style={{textAlign: 'center', color: '#cccccc'}}>推荐使用谷歌浏览器，可以获得更佳页面操作体验</Footer>
           </Layout>
         </Layout>
       </>
