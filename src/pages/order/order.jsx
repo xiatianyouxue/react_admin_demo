@@ -7,8 +7,8 @@ export default class Order extends React.Component{
   }
   render() {
     return (
-      <div>
-
+      <div className='order'>
+          功能正在开发中.....
       </div>
     );
   }
